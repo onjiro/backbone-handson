@@ -47,7 +47,24 @@
   <script src="lib/backbone-localstorage.js"></script>
   <!-- todos.js -->
   <script>
-    // ここにコードを記載していきます。オリジナル版でのtodos.jsに相当します。
+    var AppView = Backbone.View.extend({
+      events: {
+        "keypress #new-todo": "createOnEnter"
+      },
+
+      /**
+       * 新しいTodo項目の入力が行われた際に呼ばれるメソッド。
+       *
+       * this.$(...)はView要素スコープでのjQuery or Zeptoでのセレクタを提供している。
+       * 詳しくはBackbone.jsのマニュアルの次の項目を参照。
+       * http://backbonejs.org/#View-dollar
+       */
+      createOnEnter: function(e) {
+        if (e.keyCode !== 13) return;
+        alert(this.$("#new-todo").val());
+      }
+    });
+    var app = new AppView({el: "#todoapp"});
   </script>
 
   <!-- Templates -->
