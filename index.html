@@ -65,6 +65,16 @@
 
   <!-- todos.js -->
   <script>
+    $(function() {
+    var Todo = Backbone.Model.extend({
+      defaults: function() {
+        return {
+          title: "empty todo",
+          order: 0,
+          done: false
+        };
+      }
+    });
     var TodoList = Backbone.Collection.extend();
     var TodoView = Backbone.View.extend({
       tagName: "li",
@@ -113,6 +123,7 @@
     var app = new AppView({
       el: "#todoapp",
       collection: new TodoList()
+    });
     });
   </script>
 
