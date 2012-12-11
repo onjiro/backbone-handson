@@ -74,7 +74,10 @@
       },
       toggle: function() {
         this.set("done", !this.get("done"));
-      }
+      },
+      clear: function() {
+        this.destroy();
+      },
     });
     var TodoList = Backbone.Collection.extend({
       model: Todo
@@ -85,7 +88,7 @@
 
       events: {
         "click .toggle": function() { this.model.toggle(); },
-        "click a.destroy": function() { this.model.destroy(); },
+        "click a.destroy": function() { this.model.clear(); },
       },
       initialize: function() {
         this.model.on("destroy", this.remove, this);
