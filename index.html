@@ -89,6 +89,8 @@
       }
     });
     var AppView = Backbone.View.extend({
+      statsTemplate: _.template($("#stats-template").html()),
+
       events: {
         "keypress #new-todo": "createOnEnter"
       },
@@ -105,7 +107,7 @@
         this.$("#main").show();
         this.$("footer")
           .show()
-          .html(_.template($("#stats-template").html(), {done: done, remaining: remaining}));
+          .html(this.statsTemplate({done: done, remaining: remaining}));
       },
 
       addOne: function(todo) {
