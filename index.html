@@ -67,15 +67,15 @@
   <script>
     $(function() {
     var Todo = Backbone.Model.extend({
-      defaults: function() {
-        return {
+      defaults: {
           title: "empty todo",
           order: 0,
-          done: false
-        };
+          "done": false
       }
     });
-    var TodoList = Backbone.Collection.extend();
+    var TodoList = Backbone.Collection.extend({
+      model: Todo
+    });
     var TodoView = Backbone.View.extend({
       tagName: "li",
       template: _.template($('#item-template').html()),
@@ -100,7 +100,12 @@
       },
 
       render: function() {
+        var done = this.collection.where({done: true}).length;
+        var remaining = this.collection.where({done: false}).length;
         this.$("#main").show();
+        this.$("footer")
+          .show()
+          .html(_.template($("#stats-template").html(), {done: done, remaining: remaining}));
       },
 
       addOne: function(todo) {
