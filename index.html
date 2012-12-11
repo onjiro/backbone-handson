@@ -85,6 +85,12 @@
       initialize: function() {
         // コレクションから通知されるイベントのハンドル方法を指定
         this.collection.on("add", this.addOne, this);
+        // コレクションに変更が合った場合、画面を更新する
+        this.collection.on("all", this.render, this);
+      },
+
+      render: function() {
+        this.$("#main").show();
       },
 
       addOne: function(todo) {
@@ -102,7 +108,6 @@
       createOnEnter: function(e) {
         if (e.keyCode !== 13) return;
         this.collection.add({title: this.$("#new-todo").val()});
-        this.$("#main").show();
       }
     });
     var app = new AppView({
