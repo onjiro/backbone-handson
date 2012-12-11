@@ -80,6 +80,9 @@
       tagName: "li",
       template: _.template($('#item-template').html()),
 
+      events: {
+        "click .toggle": function() { this.model.set("done", !this.model.get("done")) },
+      },
       render: function() {
         this.$el.html(this.template({
           title: this.model.get("title"),
