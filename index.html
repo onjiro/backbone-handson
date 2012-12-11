@@ -45,28 +45,6 @@
   <script src="lib/underscore-1.3.1.js"></script>
   <script src="lib/backbone.js"></script>
   <script src="lib/backbone-localstorage.js"></script>
-  <!-- todos.js -->
-  <script>
-    var AppView = Backbone.View.extend({
-      events: {
-        "keypress #new-todo": "createOnEnter"
-      },
-
-      /**
-       * 新しいTodo項目の入力が行われた際に呼ばれるメソッド。
-       *
-       * this.$(...)はView要素スコープでのjQuery or Zeptoでのセレクタを提供している。
-       * 詳しくはBackbone.jsのマニュアルの次の項目を参照。
-       * http://backbonejs.org/#View-dollar
-       */
-      createOnEnter: function(e) {
-        if (e.keyCode !== 13) return;
-        alert(this.$("#new-todo").val());
-      }
-    });
-    var app = new AppView({el: "#todoapp"});
-  </script>
-
   <!-- Templates -->
 
   <script type="text/template" id="item-template">
@@ -83,6 +61,54 @@
       <a id="clear-completed">Clear <%= done %> completed <%= done == 1 ? 'item' : 'items' %></a>
     <% } %>
     <div class="todo-count"><b><%= remaining %></b> <%= remaining == 1 ? 'item' : 'items' %> left</div>
+  </script>
+
+  <!-- todos.js -->
+  <script>
+    var TodoList = Backbone.Collection.extend();
+    var TodoView = Backbone.View.extend({
+      tagName: "li",
+      template: _.template($('#item-template').html()),
+
+      render: function() {
+        this.$el.html(this.template({
+          title: this.model.get("title"),
+          done: false
+        }));
+        return this;
+      }
+    });
+    var AppView = Backbone.View.extend({
+      events: {
+        "keypress #new-todo": "createOnEnter"
+      },
+      initialize: function() {
+        // コレクションから通知されるイベントのハンドル方法を指定
+        this.collection.on("add", this.addOne, this);
+      },
+
+      addOne: function(todo) {
+        var view = new TodoView({model: todo});
+        this.$("#todo-list").append(view.render().el);
+      },
+
+      /**
+       * 新しいTodo項目の入力が行われた際に呼ばれるメソッド。
+       *
+       * this.$(...)はView要素スコープでのjQuery or Zeptoでのセレクタを提供している。
+       * 詳しくはBackbone.jsのマニュアルの次の項目を参照。
+       * http://backbonejs.org/#View-dollar
+       */
+      createOnEnter: function(e) {
+        if (e.keyCode !== 13) return;
+        this.collection.add({title: this.$("#new-todo").val()});
+        this.$("#main").show();
+      }
+    });
+    var app = new AppView({
+      el: "#todoapp",
+      collection: new TodoList()
+    });
   </script>
 
   </body>
