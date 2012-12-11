@@ -71,6 +71,9 @@
           title: "empty todo",
           order: 0,
           "done": false
+      },
+      toggle: function() {
+        this.set("done", !this.get("done"));
       }
     });
     var TodoList = Backbone.Collection.extend({
@@ -81,7 +84,7 @@
       template: _.template($('#item-template').html()),
 
       events: {
-        "click .toggle": function() { this.model.set("done", !this.model.get("done")) },
+        "click .toggle": function() { this.model.toggle(); }
       },
       render: function() {
         this.$el.html(this.template({
