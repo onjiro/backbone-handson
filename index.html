@@ -84,7 +84,11 @@
       template: _.template($('#item-template').html()),
 
       events: {
-        "click .toggle": function() { this.model.toggle(); }
+        "click .toggle": function() { this.model.toggle(); },
+        "click a.destroy": function() { this.model.destroy(); },
+      },
+      initialize: function() {
+        this.model.on("destroy", this.remove, this);
       },
       render: function() {
         this.$el.html(this.template({
@@ -110,10 +114,15 @@
       render: function() {
         var done = this.collection.where({done: true}).length;
         var remaining = this.collection.where({done: false}).length;
-        this.$("#main").show();
-        this.$("footer")
-          .show()
-          .html(this.statsTemplate({done: done, remaining: remaining}));
+        if (this.collection.length) {
+          this.$("#main").show();
+          this.$("footer")
+            .show()
+            .html(this.statsTemplate({done: done, remaining: remaining}));
+        } else {
+          this.$("#main").hide();
+          this.$("footer").hide()
+        }
       },
 
       addOne: function(todo) {
