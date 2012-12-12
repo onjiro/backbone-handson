@@ -89,8 +89,15 @@
       events: {
         "click .toggle": function() { this.model.toggle(); },
         "click a.destroy": function() { this.model.clear(); },
+        "dblclick .view": function() {
+          this.$el.addClass("editing");
+          this.input.focus();
+        },
+        "keypress .edit": function(e) { if (e.keyCode === 13) this.close() },
+        "blur .edit": "close",
       },
       initialize: function() {
+        this.model.on("change", this.render, this);
         this.model.on("destroy", this.remove, this);
       },
       render: function() {
@@ -98,8 +105,15 @@
           title: this.model.get("title"),
           done: false
         }));
+        this.input = this.$(".edit");
         return this;
-      }
+      },
+      close: function() {
+        var value = this.input.val();
+        console.log(value);
+        this.model.set("title", value);
+        this.$el.removeClass("editing");
+      },
     });
     var AppView = Backbone.View.extend({
       statsTemplate: _.template($("#stats-template").html()),
