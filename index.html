@@ -103,7 +103,7 @@
       render: function() {
         this.$el.html(this.template({
           title: this.model.get("title"),
-          done: false
+          done: this.model.get("done"),
         }));
         this.input = this.$(".edit");
         return this;
@@ -119,9 +119,15 @@
       statsTemplate: _.template($("#stats-template").html()),
 
       events: {
-        "keypress #new-todo": "createOnEnter"
+        "keypress #new-todo": "createOnEnter",
+        "click #clear-completed": function() { _.each(this.collection.where({done: true}), function(todo) { todo.clear() }); },
+        "click #toggle-all": function() {
+          var allDone = this.allCheckbox.checked;
+          this.collection.each(function(todo) { todo.set("done", allDone); });
+        },
       },
       initialize: function() {
+        this.allCheckbox = this.$("#toggle-all")[0];
         // コレクションから通知されるイベントのハンドル方法を指定
         this.collection.on("add", this.addOne, this);
         // コレクションに変更が合った場合、画面を更新する
@@ -140,6 +146,7 @@
           this.$("#main").hide();
           this.$("footer").hide()
         }
+        this.allCheckbox.checked = !remaining;
       },
 
       addOne: function(todo) {
