@@ -83,12 +83,14 @@
         tagName: 'li',
         template: _.template($('#item-template').html()),
 
+        initialize: function() {
+          this.render();
+        },
         render: function() {
           this.$el.html(this.template({
             title: this.model.get('title'),
             done: this.model.get('done'),
           }));
-          return this;
         },
       });
 
@@ -110,7 +112,7 @@
         },
         addOne: function(todo) {
           var view = new TodoView({model: todo});
-          this.$todoList.append(view.render().el);
+          this.$todoList.append(view.el);
         },
         render: function() {
           this.$main.show();
