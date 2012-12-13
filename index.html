@@ -120,9 +120,12 @@
           this.$todoList.append(view.el);
         },
         render: function() {
+          var done = this.collection.where({done: true}).length;
+          var remaining = this.collection.where({done: false}).length;
+
           this.$main.show();
           this.$footer.show();
-          this.$footer.html(this.statsTemplate({done: 1, remaining: 1}));
+          this.$footer.html(this.statsTemplate({done: done, remaining: remaining}));
         },
       });
 
