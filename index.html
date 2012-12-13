@@ -108,6 +108,7 @@
           this.$input = this.$('#new-todo');
           this.$todoList = this.$('#todo-list');
           this.$main = this.$('#main');
+          this.$footer = this.$('footer');
 
           this.collection.on('add', this.addOne, this);
           this.collection.on('all', this.render, this);
@@ -118,6 +119,7 @@
         },
         render: function() {
           this.$main.show();
+          this.$footer.show();
         },
       });
 
