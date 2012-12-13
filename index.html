@@ -67,13 +67,25 @@
   <!-- todos.js -->
   <script>
     $(document).ready(function() {
+      var Todo = Backbone.Model.extend({
+        defaults: {
+          title: 'empty todo',
+          done : false,
+          order: 0
+        }
+      });
+
+      var TodoList = Backbone.Collection.extend({
+        model: Todo,
+      });
+
       var AppView = Backbone.View.extend({
         events: {
           'keypress #new-todo': function(e) {
             if (e.keyCode !== 13) return;
 
-            var title = this.$input.val();
-            alert(title);
+            this.collection.add({ title: this.$input.val() });
+            alert(this.collection.length);
           },
         },
         initialize: function() {
@@ -83,6 +95,7 @@
 
       var app = new AppView({
         el: '#todoapp',
+        collection: new TodoList(),
       });
     });
   </script>
