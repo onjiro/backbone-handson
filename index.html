@@ -101,6 +101,7 @@
             if (this.$input.val() === '') return;
 
             this.collection.add({ title: this.$input.val() });
+            this.$input.val('');
           },
         },
         initialize: function() {
