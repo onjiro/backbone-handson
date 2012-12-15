@@ -67,17 +67,26 @@
   <!-- todos.js -->
   <script>
     $(document).ready(function() {
+      var TodoView = Backbone.View.extend({
+        tagName: 'li',
+
+        initialize: function(title) {
+          var todoHtml = _.template($('#item-template').html(), {
+            title: title,
+            done:  false,
+          });
+          this.$el.html(todoHtml);
+        },
+      });
+
       var AppView = Backbone.View.extend({
         events: {
           'keypress #new-todo': function(e) {
             if (e.keyCode !== 13) return;
             if (this.$input.val() === '') return;
 
-            var todoHtml = _.template($('#item-template').html(), {
-              title: this.$input.val(),
-              done:  false,
-            });
-            this.$('#todo-list').append($('<li/>').append(todoHtml));
+            var todoView = new TodoView(this.$input.val());
+            this.$('#todo-list').append(todoView.el);
             this.$('#main').show();
             this.$input.val('');
           },
