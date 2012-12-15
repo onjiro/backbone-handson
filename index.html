@@ -91,6 +91,7 @@
       });
 
       var AppView = Backbone.View.extend({
+        statsTemplate: _.template($('#stats-template').html()),
         events: {
           'keypress #new-todo': function(e) {
             if (e.keyCode !== 13) return;
@@ -106,10 +107,14 @@
           this.collection.on('add', this.render, this);
         },
         render: function(todo) {
+          var done = this.collection.where({done: true}).length;
+          var remaining = this.collection.where({done: false}).length;
+
           var todoView = new TodoView({ model: todo });
           this.$('#todo-list').append(todoView.el);
           this.$('#main').show();
           this.$footer.show();
+          this.$footer.html(this.statsTemplate({done: done, remaining: remaining}));
         },
       });
 
