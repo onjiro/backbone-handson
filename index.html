@@ -97,14 +97,17 @@
 
             var newTodo = new Todo({ title: this.$input.val() });
             this.collection.add(newTodo);
-            var todoView = new TodoView({ model: newTodo });
-            this.$('#todo-list').append(todoView.el);
-            this.$('#main').show();
             this.$input.val('');
           },
         },
         initialize: function() {
           this.$input = this.$('#new-todo');
+          this.collection.on('add', this.render, this);
+        },
+        render: function(todo) {
+          var todoView = new TodoView({ model: todo });
+          this.$('#todo-list').append(todoView.el);
+          this.$('#main').show();
         },
       });
 
