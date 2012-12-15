@@ -76,6 +76,13 @@
 
       var TodoList = Backbone.Collection.extend({
         model: Todo,
+
+        doneTodos: function() {
+          return this.where({done: true});
+        },
+        remainingTodos: function() {
+          return this.where({done: false});
+        },
       });
 
       var TodoView = Backbone.View.extend({
@@ -107,8 +114,8 @@
           this.collection.on('add', this.render, this);
         },
         render: function(todo) {
-          var done = this.collection.where({done: true}).length;
-          var remaining = this.collection.where({done: false}).length;
+          var done = this.collection.doneTodos().length;
+          var remaining = this.collection.remainingTodos().length;
 
           var todoView = new TodoView({ model: todo });
           this.$('#todo-list').append(todoView.el);
