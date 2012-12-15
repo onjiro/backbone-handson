@@ -111,14 +111,17 @@
         initialize: function() {
           this.$input = this.$('#new-todo');
           this.$footer = this.$('footer');
-          this.collection.on('add', this.render, this);
+          this.collection.on('add', this.addOne, this);
+          this.collection.on('all', this.render, this);
         },
-        render: function(todo) {
+        addOne: function(todo) {
+          var todoView = new TodoView({ model: todo });
+          this.$('#todo-list').append(todoView.el);
+        },
+        render: function() {
           var done = this.collection.doneTodos().length;
           var remaining = this.collection.remainingTodos().length;
 
-          var todoView = new TodoView({ model: todo });
-          this.$('#todo-list').append(todoView.el);
           this.$('#main').show();
           this.$footer.show();
           this.$footer.html(this.statsTemplate({done: done, remaining: remaining}));
