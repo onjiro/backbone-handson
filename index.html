@@ -75,6 +75,7 @@
       });
 
       var TodoList = Backbone.Collection.extend({
+        model: Todo,
       });
 
       var TodoView = Backbone.View.extend({
@@ -95,8 +96,7 @@
             if (e.keyCode !== 13) return;
             if (this.$input.val() === '') return;
 
-            var newTodo = new Todo({ title: this.$input.val() });
-            this.collection.add(newTodo);
+            this.collection.add({ title: this.$input.val() });
             this.$input.val('');
           },
         },
