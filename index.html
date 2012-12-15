@@ -87,6 +87,9 @@
 
       var TodoView = Backbone.View.extend({
         tagName: 'li',
+        events: {
+          'click .toggle': function(e) { this.model.set('done', this.$done.checked); },
+        },
 
         initialize: function() {
           var todoHtml = _.template($('#item-template').html(), {
@@ -94,6 +97,7 @@
             done:  this.model.get('done'),
           });
           this.$el.html(todoHtml);
+          this.$done = this.$('.toggle')[0];
         },
       });
 
