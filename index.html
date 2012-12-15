@@ -130,6 +130,9 @@
             this.collection.add({ title: this.$input.val() });
             this.$input.val('');
           },
+          'click #clear-completed': function() {
+            _.each(this.collection.doneTodos(), function(todo) { todo.destroy() });
+          },
         },
         initialize: function() {
           this.$input = this.$('#new-todo');
