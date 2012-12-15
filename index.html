@@ -121,6 +121,7 @@
         },
         initialize: function() {
           this.$input = this.$('#new-todo');
+          this.$main = this.$('#main');
           this.$footer = this.$('footer');
           this.collection.on('add', this.addOne, this);
           this.collection.on('all', this.render, this);
@@ -134,11 +135,11 @@
           var remaining = this.collection.remainingTodos().length;
 
           if (this.collection.length) {
-            this.$('#main').show();
+            this.$main.show();
             this.$footer.show();
             this.$footer.html(this.statsTemplate({done: done, remaining: remaining}));
           } else {
-            this.$('#main').hide();
+            this.$main.hide();
             this.$footer.hide();
           }
         },
