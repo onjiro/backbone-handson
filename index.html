@@ -89,6 +89,7 @@
         tagName: 'li',
         events: {
           'click .toggle': function(e) { this.model.set('done', this.$done.checked); },
+          'click a.destroy': function() { this.model.destroy(); },
         },
 
         initialize: function() {
