@@ -71,8 +71,11 @@
         events: {
           "keypress #new-todo": function(e) {
             if (e.keyCode !== 13) return;
-            alert("new todo!");
+            alert(this.$input.val());
           },
+        },
+        initialize: function() {
+          this.$input = this.$('#new-todo');
         },
       });
 
