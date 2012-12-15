@@ -74,6 +74,10 @@
         },
       });
 
+      var TodoList = Backbone.Collection.extend({
+        model: Todo,
+      });
+
       var TodoView = Backbone.View.extend({
         tagName: 'li',
 
@@ -92,6 +96,7 @@
             if (e.keyCode !== 13) return;
 
             var newTodo = new Todo({ title: this.$input.val() });
+            this.collection.add(newTodo);
             var todoView = new TodoView({ model: newTodo });
             this.$('#todo-list').append(todoView.el);
             this.$('#main').show();
@@ -104,6 +109,7 @@
 
       var app = new AppView({
         el: '#todoapp',
+        collection: new TodoList(),
       });
     });
   </script>
