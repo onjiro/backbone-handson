@@ -102,12 +102,14 @@
         },
         initialize: function() {
           this.$input = this.$('#new-todo');
+          this.$footer = this.$('footer');
           this.collection.on('add', this.render, this);
         },
         render: function(todo) {
           var todoView = new TodoView({ model: todo });
           this.$('#todo-list').append(todoView.el);
           this.$('#main').show();
+          this.$footer.show();
         },
       });
 
