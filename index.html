@@ -90,6 +90,9 @@
         tagName: 'li',
         template: _.template($('#item-template').html()),
 
+        events: {
+          'click .toggle': function(e) { this.model.set('done', this.$done.checked); },
+        },
         initialize: function() {
           this.render();
         },
@@ -98,6 +101,7 @@
             title: this.model.get('title'),
             done: this.model.get('done'),
           }));
+          this.$done = this.$('.toggle')[0];
         },
       });
 
