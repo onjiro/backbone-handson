@@ -92,11 +92,16 @@
         },
 
         initialize: function() {
+          this.model.on('change', this.render, this);
+          this.render();
+        },
+        render: function() {
           var todoHtml = _.template($('#item-template').html(), {
             title: this.model.get('title'),
             done:  this.model.get('done'),
           });
           this.$el.html(todoHtml);
+          this.$el.toggleClass('done', this.model.get('done'));
           this.$done = this.$('.toggle')[0];
         },
       });
