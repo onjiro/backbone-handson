@@ -68,6 +68,10 @@
   <script>
     $(document).ready(function() {
       var Todo = Backbone.Model.extend({
+        defaults: {
+          title: 'empty todo',
+          done:  false,
+        },
       });
 
       var TodoView = Backbone.View.extend({
@@ -76,7 +80,7 @@
         initialize: function() {
           var todoHtml = _.template($('#item-template').html(), {
             title: this.model.get('title'),
-            done:  false,
+            done:  this.model.get('done'),
           });
           this.$el.html(todoHtml);
         },
