@@ -94,6 +94,8 @@
             this.$el.addClass('editing');
             this.$input.focus();
           },
+          'keypress .edit': function(e) { if (e.keyCode === 13) this.close() },
+          'blur .edit': 'close',
         },
 
         initialize: function() {
@@ -110,6 +112,11 @@
           this.$el.toggleClass('done', this.model.get('done'));
           this.$done = this.$('.toggle')[0];
           this.$input = this.$('.edit');
+        },
+        close: function() {
+          var value = this.$input.val();
+          this.model.set('title', value);
+          this.$el.removeClass('editing');
         },
       });
 
