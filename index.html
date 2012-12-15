@@ -133,8 +133,13 @@
           'click #clear-completed': function() {
             _.each(this.collection.doneTodos(), function(todo) { todo.destroy() });
           },
+          'click #toggle-all': function() {
+            var allDone = this.allDoneCheckbox.checked;
+            this.collection.each(function(todo) { todo.set('done', allDone); });
+          },
         },
         initialize: function() {
+          this.allDoneCheckbox = this.$('#toggle-all')[0];
           this.$input = this.$('#new-todo');
           this.$main = this.$('#main');
           this.$footer = this.$('footer');
